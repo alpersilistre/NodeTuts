@@ -5,32 +5,28 @@ var dir = path.join(__dirname, 'temp');
 var source = __filename;
 var target = path.join(dir, 'target');
 
-fs.mkdir(dir, mkdirped);
+fs.mkdir(dir, handlingError(mkdirped));
 
-function mkdirped(err) {
-	if(err){
-		handleError(err);
-	}
-	else{
-		fs.readFile(source, haveFile);
-	}
+function mkdirped() {
+	fs.readFile(source, handlingError(haveFile));
 }
 
-function haveFile(err, content) {
-
-	if(err){
-		handleError(err);
-	}
-	else{
-		fs.writeFile(target, content, wroteFile)
-	}
+function haveFile(content) {
+	fs.writeFile(target, content, handlingError(wroteFile))
 }
 
-function wroteFile(err) {
-	if(err){
-		handleError(err);
-	}else{
-		console.log('all done');
+function wroteFile() {
+	console.log('all done');
+}
+
+function handlingError(cb) {
+	return function(err, result) {
+		if(err){
+			handleError(err);
+		}
+		else{
+			cb(result);
+		}
 	}
 }
 
