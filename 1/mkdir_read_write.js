@@ -25,6 +25,7 @@ function handlingError(cb) {
 			handleError(err);
 		}
 		else{
+			//console.log(result); -> For debugging
 			cb(result);
 		}
 	}
